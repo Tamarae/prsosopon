@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ქართული პროსოპოგრაფია</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+
+        header {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 30px 0;
+            margin-bottom: 50px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: normal;
+            color: #222;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 5px;
+            font-size: 13px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+            border-radius: 0;
+            font-family: inherit;
+        }
+
+        .lang-btn.active {
+            background-color: #222;
+            color: white;
+            border-color: #222;
+        }
+
+        .lang-btn:hover {
+            border-color: #999;
+        }
+
+        main {
+            background-color: white;
+            padding: 0;
+            margin-bottom: 50px;
+        }
+
+        .toc-header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .toc-title {
+            font-size: 1.4rem;
+            font-weight: normal;
+            color: #222;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .toc-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .category {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-header {
+            background-color: #fff;
+            padding: 15px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .category-header:hover {
+            background-color: #fafafa;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #333;
+        }
+
+        .item-count {
+            background-color: #f5f5f5;
+            color: #666;
+            padding: 2px 6px;
+            border-radius: 0;
+            font-size: 0.75rem;
+            font-weight: normal;
+            border: 1px solid #eee;
+        }
+
+        .chevron {
+            font-size: 0.8rem;
+            color: #999;
+            font-family: monospace;
+        }
+
+        .category-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease;
+            background-color: white;
+        }
+
+        .category-content.expanded {
+            max-height: 800px;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 25px 0;
+        }
+
+        .resource-item {
+            border-bottom: 1px solid #f8f8f8;
+        }
+
+        .resource-item:last-child {
+            border-bottom: none;
+        }
+
+        .resource-link {
+            color: #444;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 8px 15px;
+            line-height: 1.5;
+        }
+
+        .resource-link:hover {
+            background-color: #f9f9f9;
+            color: #222;
+        }
+
+        .expand-all-btn {
+            background-color: #fff;
+            color: #666;
+            border: 1px solid #ccc;
+            padding: 8px 16px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-bottom: 40px;
+            font-family: inherit;
+        }
+
+        .expand-all-btn:hover {
+            background-color: #f5f5f5;
+            border-color: #999;
+        }
+
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 25px 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .category-header {
+                padding: 12px 0;
+            }
+
+            .category-title {
+                font-size: 0.95rem;
+            }
+
+            .resource-link {
+                font-size: 0.85rem;
+                padding: 7px 10px;
+            }
+
+            .toc-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 id="main-title">ქართული პროსოპოგრაფია</h1>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="switchLanguage('ka')">ქართული</button>
+                    <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <!-- Georgian Content -->
+            <div id="content-ka">
+                <div class="toc-header">
+                    <h2 class="toc-title">სარჩევი</h2>
+                    <p class="toc-subtitle">ქართული ისტორიული წყაროებისა და დოკუმენტების კატალოგი</p>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCategories()">ყველა კატეგორიის გახსნა/დახურვა</button>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            მოსახსენიებლები
+                            <span class="item-count">9</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="https://tamarae.github.io/tbeti/" class="resource-link">ტბეთის სულთა მატიანე</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">კოპასძეთა ხელნაწერის მოსახსენებლები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ერისთავიანთ დაუჯდომლის ქრონიკები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ათონის ივერიის მონასტრის 1074 წ. ხელთნაწერი აღაპებით</a></li>
+                            <li class="resource-item"><a href="https://tamarae.github.io/jvari_1.0/index.html" class="resource-link">ჯვარის მონასტრის აღაპები ტიშენდორფისეული ნუსხის მიხედვით</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ჯვარის მონასტრის სვინაქსრის აღაპები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ნიკორწმინდის ხელნაწერის სულთა მატიანე</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სინის მთის მონასტრის სულთა მატიანე</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">გერგეტის სულთა მატიანე</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            ქრონიკები
+                            <span class="item-count">8</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">ქართლის ცხოვრება (ჟამთააღმწერელი)</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">თეიმურაზ ბატონიშვილი ახალი ისტორია</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ათაბაგთა ქრონიკა</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ძეგლი ერისთავთა</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ამბავი ქართლისანი</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ფარსადან გორგიჯანიძე</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">გელათის წმ. გიორგის გულანის ქრონიკა</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ყანჩაეთის ჟამნ-გულანის ქრონიკები</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            დავთრები
+                            <span class="item-count">5</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">გურჯისტანის ვილაიეთის დიდი დავთარი 1574</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">გურჯისტანის ვილაიეთის დიდი დავთარი 1594-95</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">თბილისის ვილაიეთის დიდი დავთარი 1728</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ჩილდირის ვილაიეთის ჯაბა დავთარი</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">ჩილდირის ვილაიეთის მოკლე (იჯმალ) დავთარი</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            სამართალი
+                            <span class="item-count">8</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">ვახტანგ VI-სის სამართლის წიგნთა კრებული</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">საერო საკანონმდებლო ძეგლები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">საეკლესიო საკანონმდებლო ძეგლები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სასამართლო განჩინებანი (XVI-XIII სს.)</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სასამართლო განჩინებანი XVIII ს.</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სასამართლო განჩინებანი XVIII-XIX სს.</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სასამართლო არზა-ოქმები</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">სასამართლო არზა-ოქმები და კერძო-სამართლებრივი აქტები</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            მოგზაურობები
+                            <span class="item-count">2</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">ტიმოთე</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">გიორგი ავალიშვილი</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            ლექსიკონები
+                            <span class="item-count">5</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">პირთა ანოტირებული ლექსიკონი : XI-XVII სს. ქართული ისტორიული საბუთების მიხედვით. ტ. 1</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">პირთა ანოტირებული ლექსიკონი : XI-XVII სს. ქართული ისტორიული საბუთების მიხედვით. ტ. 2</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">პირთა ანოტირებული ლექსიკონი : XI-XVII სს. ქართული ისტორიული საბუთების მიხედვით. ტ. 3</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">პირთა ანოტირებული ლექსიკონი : XI-XVII სს. ქართული ისტორიული საბუთების მიხედვით. ტ. 4</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">პირთა ანოტირებული ლექსიკონი : XI-XVII სს. ქართული ისტორიული საბუთების მიხედვით. ტ. 5</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Content -->
+            <div id="content-en" class="hidden">
+                <div class="toc-header">
+                    <h2 class="toc-title">Table of Contents</h2>
+                    <p class="toc-subtitle">Catalog of Georgian Historical Sources and Documents</p>
+                </div>
+
+                <button class="expand-all-btn" onclick="toggleAllCategories()">Expand/Collapse All Categories</button>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Memoranda
+                            <span class="item-count">9</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Tbet's Synaxarion</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Kopasdze Manuscript Memoranda</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Eristavi Chronicles of Daudjdomeli</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Athos Iveria Monastery 1074 Manuscript with Hagiographies</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Jvari Monastery Hagiographies according to Tischendorf's Version</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Jvari Monastery Synaxarion Hagiographies</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Nikortsminda Manuscript Synaxarion</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Mount Sinai Monastery Synaxarion</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Gergeti Synaxarion (Q. Sharashidze)</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Chronicles
+                            <span class="item-count">8</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Life of Kartli (Chronicle)</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Prince Teimuraz New History</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Atabag Chronicle</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Monument of Eristavis</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">News of Kartlisani</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Parsadan Gorgijanidze</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Gelati St. George Gulani Chronicle</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Qanchaeti Jamn-Gulani Chronicles</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Registers
+                            <span class="item-count">5</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Gurjistan Vilayet Great Register 1574</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Gurjistan Vilayet Great Register 1594-95</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Tbilisi Vilayet Great Register 1728</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Childir Vilayet Jaba Register</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Childir Vilayet Short (Ijmal) Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Legal Documents
+                            <span class="item-count">8</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Vakhtang VI Legal Code Collection</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Secular Legislative Monuments</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Ecclesiastical Legislative Monuments</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Court Decisions (XVI-XIII centuries)</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Court Decisions XVIII century</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Court Decisions XVIII-XIX centuries</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Court Deeds</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Court Deeds and Private Legal Acts</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Travel Accounts
+                            <span class="item-count">2</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Timothy</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Giorgi Avalishvili</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" onclick="toggleCategory(this)">
+                        <div class="category-title">
+                            Lexicons
+                            <span class="item-count">5</span>
+                        </div>
+                        <span class="chevron">▼</span>
+                    </div>
+                    <div class="category-content">
+                        <ul class="resource-list">
+                            <li class="resource-item"><a href="#" class="resource-link">Annotated Lexicon of Persons: XI-XVII cc. According to Georgian Historical Documents. Vol. 1</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Annotated Lexicon of Persons: XI-XVII cc. According to Georgian Historical Documents. Vol. 2</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Annotated Lexicon of Persons: XI-XVII cc. According to Georgian Historical Documents. Vol. 3</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Annotated Lexicon of Persons: XI-XVII cc. According to Georgian Historical Documents. Vol. 4</a></li>
+                            <li class="resource-item"><a href="#" class="resource-link">Annotated Lexicon of Persons: XI-XVII cc. According to Georgian Historical Documents. Vol. 5</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p id="footer-text">ილიას სახელმწიფო უნივერსიტეტი, 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        let allExpanded = false;
+
+        function toggleCategory(header) {
+            const content = header.nextElementSibling;
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+            } else {
+                content.classList.add('expanded');
+            }
+        }
+
+        function toggleAllCategories() {
+            const contents = document.querySelectorAll('.category-content');
+
+            allExpanded = !allExpanded;
+
+            contents.forEach(content => {
+                if (allExpanded) {
+                    content.classList.add('expanded');
+                } else {
+                    content.classList.remove('expanded');
+                }
+            });
+        }
+
+        function switchLanguage(lang) {
+            const kaContent = document.getElementById('content-ka');
+            const enContent = document.getElementById('content-en');
+            const mainTitle = document.getElementById('main-title');
+            const footerText = document.getElementById('footer-text');
+            const langButtons = document.querySelectorAll('.lang-btn');
+
+            // Remove active class from all buttons
+            langButtons.forEach(btn => btn.classList.remove('active'));
+
+            if (lang === 'ka') {
+                kaContent.classList.remove('hidden');
+                enContent.classList.add('hidden');
+                mainTitle.textContent = 'ქართული პროსოპოგრაფია';
+                footerText.textContent = 'ილიას სახელმწიფო უნივერსიტეტი, 2025';
+                document.querySelector('[onclick="switchLanguage(\'ka\')"]').classList.add('active');
+                document.documentElement.lang = 'ka';
+                document.title = 'ქართული პროსოპოგრაფია';
+            } else {
+                kaContent.classList.add('hidden');
+                enContent.classList.remove('hidden');
+                mainTitle.textContent = 'Georgian Prosopography';
+                footerText.textContent = 'Ilia State University, 2025';
+                document.querySelector('[onclick="switchLanguage(\'en\')"]').classList.add('active');
+                document.documentElement.lang = 'en';
+                document.title = 'Georgian Prosopography';
+            }
+        }
+    </script>
+</body>
+</html>
